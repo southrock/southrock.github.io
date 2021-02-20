@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          前端知识梳理（一）模块管理 - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2019/11/26/前端知识梳理（一）模块管理/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/archive/?tag=CommonJS" title="CommonJS">CommonJS</a>
+                        
+                          <a class="tag" href="/archive/?tag=ES6" title="ES6">ES6</a>
+                        
+                    </div>
+                    <h1>前端知识梳理（一）模块管理</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2019-11-26
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于流行的语言，类似于python、java、c等等，在初期学习，我们一般就能接触到他们的模块管理模式，大概了解其运行的机制。而JavaScript，由于天生的缺陷，随着学习的深入，许久后才能了解到一些列诸如UMD、CommonJS和ES6 Module等看起来相似却又迥异的多种模块管理模式。</p>
+<h2 id="模块管理"><a href="#模块管理" class="headerlink" title="模块管理"></a>模块管理</h2><p>JavaScript在现如今前端开发越来越复杂的，原先的设计模式中，模块管理的缺乏，带来了各种不方便。也导致了诸多的模块管理工具的产生。</p>
+<blockquote>
+<p>模块化的主要特征是：</p>
+<ul>
+<li>模块化，可重用</li>
+<li>封装了变量和function，和全局的namaspace不接触，松耦合</li>
+<li>只暴露可用public的方法，其它私有方法全部隐藏 </li>
+</ul>
+</blockquote>
+<h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h3><h4 id="函数包裹"><a href="#函数包裹" class="headerlink" title="函数包裹"></a>函数包裹</h4><p>平时写代码时，写的一个个函数，就相当于一个小的模块，从这个出发，来思考模块的设计模式。</p>
+<p>逻辑放在一个个函数里，封装在一个文件中，需要时直接引入。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优点：对代码进行了简单封装复用，挂载全局变量，可直接调用。</p>
+<p>缺点: 污染了全局变量，模块成员之间看不出联系。使用一个函数把其他没使用到的函数也引入了。</p>
+<h4 id="对象封装"><a href="#对象封装" class="headerlink" title="对象封装"></a>对象封装</h4><p>为了解决对全局变量的污染，可以把他们写到一个对象里面，函数变为这个对象的一个个方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> module1 = &#123;</span><br><span class="line">  _name: <span class="string">&quot;im a module&quot;</span>,</span><br><span class="line">  method1: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">  method2: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> module2 = &#123;</span><br><span class="line">  _name: <span class="string">&quot;im another module&quot;</span>,</span><br><span class="line">  method1: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">  method2: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优点：包裹了函数，对于全局变量的污染没有那么大。<br>缺点：所有成员直接暴露给外部，内部的状态可以被外部改写。</p>
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><p>使用JavaScript里面特有的闭包属性，在函数的运行周期里，闭包保证了内部代码始终处于私有状态下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">module</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  _name: <span class="string">&quot;im a module&quot;</span>,</span><br><span class="line">  <span class="keyword">var</span> method1 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">  <span class="keyword">var</span> method2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    method1:method1,</span><br><span class="line">    method2:method2</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优点：比较好的保护了私有变量</p>
+<p>缺点：动态添加方法比较麻烦，无法修改内部私有变量。</p>
+<h2 id="模块依赖方法对比"><a href="#模块依赖方法对比" class="headerlink" title="模块依赖方法对比"></a>模块依赖方法对比</h2><h3 id="CommonJs"><a href="#CommonJs" class="headerlink" title="CommonJs"></a>CommonJs</h3><p>Node.js是commonJS规范的主要实践者，它有四个重要的环境变量为模块化的实现提供支持：<code>module</code>、<code>exports</code>、<code>require</code>、<code>global</code>。实际使用时，用<code>module.exports</code>定义当前模块对外输出的接口（不推荐直接用<code>exports</code>），用<code>require</code>加载模块。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printCount</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(count);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  count:count,</span><br><span class="line">  printCount:printCount,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> m = <span class="built_in">require</span>(<span class="string">&#x27;./module.js&#x27;</span>);</span><br><span class="line">m.printCount();</span><br></pre></td></tr></table></figure>
+
+<h3 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h3><p>ES6 在语言标准的层面上，终于实现了模块功能。其模块功能主要由两个命令构成：<code>export</code>和<code>import</code>。<code>export</code>命令用于规定模块的对外接口，<code>import</code>命令用于输入其他模块提供的功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义模块 module.js</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> printCount = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(count);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123; count,printCount &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引用模块</span></span><br><span class="line"><span class="keyword">import</span> &#123; count,printCount &#125; <span class="keyword">from</span> <span class="string">&#x27;./module.js&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> test = count;</span><br><span class="line">printCount();</span><br></pre></td></tr></table></figure>
+
+<p>ES6的模块不是对象，<code>import</code>命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，虽然无法实现条件加载，但让静态分析成为可能。</p>
+<h3 id="ES6-模块与-CommonJS-模块的差异"><a href="#ES6-模块与-CommonJS-模块的差异" class="headerlink" title="ES6 模块与 CommonJS 模块的差异"></a>ES6 模块与 CommonJS 模块的差异</h3><p>在讨论差异前，必须了解ES6 模块与 CommonJS 模块完全不同。</p>
+<blockquote>
+<p>它们有两个重大差异。</p>
+<ol>
+<li>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</li>
+<li>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</li>
+</ol>
+</blockquote>
+<p>第一个是差异ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。因此，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
+<p>第二个差异是因为 CommonJS 加载的是一个对象（即<code>module.exports</code>属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这个系列主要是为了帮助自己梳理前端的知识，虽然有加上自己的理解写了一些，但自己的思考还是少了点，更多的是从文档、别人的文章收集整理的=-=有点不太好意思，但还是一个学习的过程吧。以后还会不断补充，有了新的想法后会记上。</p>
+<p>坚持学习，加油。</p>
+<h2 id="Credits"><a href="#Credits" class="headerlink" title="Credits"></a>Credits</h2><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5aaa37c8f265da23945f365c">前端模块化：CommonJS,AMD,CMD,ES6</a></p>
+<p><a target="_blank" rel="noopener" href="https://leohxj.gitbooks.io/front-end-database/javascript-modules/modules-intro.html">前端工程师手册：模块化简介</a></p>
+<p><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/#docs/module-loader">阮一峰ECMAScript 6 入门：Module 的加载实现</a></p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/12/03/前端知识梳理（二）event-loop/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（二）Event Loop">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/11/23/前端知识梳理（零）前言/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（零）前言">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/archive/?tag=CommonJS" title="CommonJS">CommonJS</a>
+                        
+                          <a class="tag" href="/archive/?tag=ES6" title="ES6">ES6</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

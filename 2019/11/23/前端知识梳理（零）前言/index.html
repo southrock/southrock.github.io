@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          前端知识梳理（零）前言 - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2019/11/23/前端知识梳理（零）前言/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=杂谈" title="杂谈">杂谈</a>
+                        
+                    </div>
+                    <h1>前端知识梳理（零）前言</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2019-11-23
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前言的前言，也真是有够怪的，我真是个喜欢写前言的人，感觉做什么事情，都得有个因，才能做下去，才做的有所意义，才做的有意思。</p>
+<p>希望自己的人生也是，有意义，有意思。</p>
+<h2 id="为什么要写这个"><a href="#为什么要写这个" class="headerlink" title="为什么要写这个"></a>为什么要写这个</h2><p>自己已经大三了，学习前端也已经两年半了，写了很多项目，也看了很多文档、博客。突然觉得自己对自己知道什么都没有个清晰的认识，需要理理，让自己视角更远一些，认清自己，也希望能认清前端发展的方向。理清自己的路线，了解自己学了什么，还差些什么，想要什么。</p>
+<p>其次就是也学习一些分享和记录的技巧，我这个人，学习东西学的很快，但都总是闷头学，从小学开始就这样，不喜欢记笔记，义务教育的课本几乎都是白的，无论在差班、好班也没怎么分享过自己的学习经验。</p>
+<p>上了大学也是，哪怕在家园，从以前的作为新生听学长们培训，到自己作为老生听自己同一届的同学给新生们培训，听得时候都觉得没什么嘛，但要自己讲的时候却发现，自己在分享自己的思考时并不太行。结果就是自己都没怎么给新生做过培训，自己也没啥存在感。</p>
+<p>在一个团队里，少说多做其实并不是一个优点。你需要输出自己的价值，要推动一件事的影响，这才有价值，才能不断推陈出新，让自己也有所发展。</p>
+<p>虽然自己不怎么在公共场合，但却喜欢私底下和人探讨问题，感觉自己在这种有反馈的传播中更如鱼得水。但光这样还是不行的，自己要成长自己，想来想去写博客算是一个不错的开始方式，较为私密的公共空间（反正没人看）练练自己广播自己思想的能力。</p>
+<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>这个系列也更多的是清理知识点，结合自己的一点思考。结合自己要找实习了的背景，也可当做一个面试前的复习吧。</p>
+<p>每一章会由一个知识点出发，来拓展其知识路径，理清概念，明确以前项目开发中模模糊糊就过去了点，最后再加上自己的一些简单实践（如果有时间的话）</p>
+<p>有些繁琐的知识点可能我会直接复制粘贴（会注明是引用并在最后列出出处）也可能会在一些很简单的点上写很多废话，这个文章主要还是服务我自己，可能对于读者来说还是不太友好，我也不推荐你去看我的这些文章，毕竟你获得的也只有我咀嚼过的二手知识甚至三、四手知识。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>感觉自己要做出一些改变了，马上就要步入社会了。大学这些年，最感谢的还是家园，感谢家园的你们。真不敢想象没有家园的话我会怎么样？自己真是个容易被环境影响的，感谢优秀的你们推着我进步，当然这是个缺点，需要改正。但还是庆幸自己在家园还是学了很多东西的。</p>
+<p>加油加油！</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/11/26/前端知识梳理（一）模块管理/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（一）模块管理">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/07/20/Hook的简单学习与实践/" data-toggle="tooltip" data-placement="top" title="Hook的简单学习与实践">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=杂谈" title="杂谈">杂谈</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          前端知识梳理（三）websocket - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2019/12/06/前端知识梳理（三）websocket/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=协议" title="协议">协议</a>
+                        
+                          <a class="tag" href="/archive/?tag=websocket" title="websocket">websocket</a>
+                        
+                    </div>
+                    <h1>前端知识梳理（三）websocket</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2019-12-06
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于后端大作业的要求，做一个前端聊天室，项目需求要用到websocket，想想自己听了这么久的websocket，却很少实际的使用到它，这次乘着这次机会，复习一波websocket的知识。</p>
+<h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>每次接触到个东西，在学习如何使用之前先问自己一个问题，为什么用它？就像之前工作室举行的hackweek比赛，许多大一的新生在自己的产品里用到了前端框架，看到他们在没有对JavaScript开发做一定了解的情况下，用着框架却仍然在繁琐地操作着dom，把函数暴露在全局作用域着，非常想让他们思考一个问题，为什么用框架。</p>
+<p>当然，抛开题外话。我们已经有了HTTP协议，为什么又要在web引入一个websocket这么一个协议。</p>
+<p>首先，我们知道，HTTP是基于TCP的，应用层上，通过请求和响应来传输数据，无状态的一种为C/S模型的通信协议。</p>
+<p>虽然TCP是全双工的协议，但是HTTP为了简化模型设计，没有使用到TCP的全双工特性，请求和相应交替在连接上传输。然后，HTTP是没有状态的，服务端要识别客户端需要依赖cookie、session等辨识用户。</p>
+<p>上述两点，虽然不算HTTP的缺点（这里吐槽后端的期中考试，在回答HTTP协议的缺点的时候答案竟然有无状态）只算是HTTP的特点，在当时历史环境下，只需要个简单可靠易用的协议，没有考虑到未来web端的应用越来越复杂，HTTP还是非常好的完成了其历史任务的。</p>
+<p>HTTP的这几个特点，虽然不影响其是个优秀的协议，但的确对于我们这个产品的需求带来了真真切切的麻烦。如何解决服务器不能主动给我们发送新的聊天信息，使用HTTP的话就只能采取轮询的办法，这不但效率低下，还消耗着服务器的资源。</p>
+<p>这也是websocket所补足的地方。接下来就让我们梳理一下websocket这个协议。</p>
+<h2 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h2><p>WebSocket协议在2008年诞生，2011年成为国际标准。其最大的特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，满足了我们这个项目的要求。</p>
+<img src="/2019/12/06/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89websocket/protocol_compare.png" class="" title="HTTP和websocket比较">
+
+<blockquote>
+<p>其他特点包括：</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>建立在 TCP 协议之上，服务器端的实现比较容易。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>数据格式比较轻量，性能开销小，通信高效。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="4">
+<li>可以发送文本，也可以发送二进制数据。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="5">
+<li>没有同源限制，客户端可以与任意服务器通信。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="6">
+<li>协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。</li>
+</ol>
+</blockquote>
+<p>对于服务器与客户端的双向通行，websocket相比HTTP有着非常大的优势。</p>
+<h3 id="api"><a href="#api" class="headerlink" title="api"></a>api</h3><h4 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h4><p><code>WebSocket(url[, protocols])</code></p>
+<p>返回一个 WebSocket 对象</p>
+<h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">WebSocket.onclose <span class="comment">//用于指定连接关闭后的回调函数</span></span><br><span class="line"></span><br><span class="line">WebSocket.onerror <span class="comment">// 用于指定连接失败后的回调函数</span></span><br><span class="line"></span><br><span class="line">WebSocket.onmessage <span class="comment">// 用于指定当从服务器接受到信息时的回调函数</span></span><br><span class="line"></span><br><span class="line">WebSocket.onopen <span class="comment">// 用于指定连接成功后的回调函数</span></span><br><span class="line"></span><br><span class="line">WebSocket.protocol <span class="comment">// 服务器选择的下属协议</span></span><br><span class="line"></span><br><span class="line">WebSocket.readyState <span class="comment">// 当前的链接状态</span></span><br><span class="line"></span><br><span class="line">WebSocket.url <span class="comment">// WebSocket 的绝对路径</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebSocket.close([code[, reason]]) <span class="comment">// 关闭当前链接</span></span><br><span class="line"></span><br><span class="line">WebSocket.send(data) <span class="comment">// 向服务器发送数据</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新建一个websocket链接</span></span><br><span class="line"><span class="keyword">var</span> socket = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;ws://localhost:8080&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听连接事件</span></span><br><span class="line">socket.addEventListener(<span class="string">&#x27;open&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    socket.send(<span class="string">&#x27;Hello Server!&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听收到信息事件</span></span><br><span class="line">socket.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;Message from server &#x27;</span>, event.data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><center>To be continue</center>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/12/03/前端知识梳理（二）event-loop/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（二）Event Loop">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=协议" title="协议">协议</a>
+                        
+                          <a class="tag" href="/archive/?tag=websocket" title="websocket">websocket</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

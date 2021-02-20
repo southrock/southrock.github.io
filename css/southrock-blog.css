@@ -1,0 +1,61 @@
+body {
+    /* IE 10+ */
+    -ms-overflow-style: none;
+    /* Firefox */
+    overflow: -moz-scrollbars-none;
+}
+
+body::-webkit-scrollbar {
+    /* chromium */
+    display: none;
+}
+
+.post-preview>.post-meta {
+    margin-bottom: 10px;
+}
+
+.post-preview>.tags a {
+    border-color: #bfbfbf;
+    color: #bfbfbf;
+    font-size: 12px;
+}
+
+.post-preview>.tags a:hover,.post-preview>.tags a:active {
+    border-color: #0085a1;
+    color: #0085a1!important;
+}
+
+#tag_cloud a,#tag_cloud .tag {
+    transition-property: all;
+    transition-duration: .4s;
+    transition-timing-function: ease;
+    padding: 0 10px 0 12px;
+    cursor: pointer;
+}
+
+#tag_cloud a.focus, #tag_cloud .tag.focus {
+    box-shadow: rgba(0,0,0,.117647) 0 1px 6px, rgba(0,0,0,.239216) 0 1px 4px;
+}
+
+#tag_cloud a>sup {
+    margin-left: 2px;
+    font-weight: 700;
+}
+
+#tag_cloud a:hover, #tag_cloud .tag:hover, #tag_cloud a:active, #tag_cloud .tag:active, #tag_cloud a.focus, #tag_cloud .tag.focus {
+    background-color: #0085a1!important;
+}
+
+#tag_cloud a.tag-button--all, #tag_cloud .tag.tag-button--all {
+    font-weight: 700;
+    color: #0085a1!important;
+    background: rgb(243, 245, 245);
+}
+
+#tag_cloud a.tag-button--all:hover, #tag_cloud .tag.tag-button--all:hover, #tag_cloud a.tag-button--all:active, #tag_cloud .tag.tag-button--all:active, #tag_cloud a.tag-button--all.focus, #tag_cloud .tag.tag-button--all.focus {
+    background-color: #e4e4e4!important;
+}
+
+.d-none {
+    display: none;
+}

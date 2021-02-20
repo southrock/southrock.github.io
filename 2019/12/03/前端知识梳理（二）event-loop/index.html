@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          前端知识梳理（二）Event Loop - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2019/12/03/前端知识梳理（二）event-loop/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/archive/?tag=并发" title="并发">并发</a>
+                        
+                    </div>
+                    <h1>前端知识梳理（二）Event Loop</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2019-12-03
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直都知道，JavaScript是一门单线程的语言，知道在写js时要注意不要堵塞了页面渲染或是导致了页面假死，那么JavaScript内部到底是如何实现任务分发和执行并行操作的呢，今天来好好梳理一下。</p>
+<h3 id="为什么JavaScript是单线程"><a href="#为什么JavaScript是单线程" class="headerlink" title="为什么JavaScript是单线程"></a>为什么JavaScript是单线程</h3><blockquote>
+<p>JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。那么，为什么JavaScript不能有多个线程呢？这样能提高效率啊。</p>
+</blockquote>
+<blockquote>
+<p>JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？</p>
+</blockquote>
+<blockquote>
+<p>所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。</p>
+</blockquote>
+<blockquote>
+<p>为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质</p>
+</blockquote>
+<h2 id="运行时的概念"><a href="#运行时的概念" class="headerlink" title="运行时的概念"></a>运行时的概念</h2><p>首先先了解一下JavaScript是如何协调好执行中的任务和回调任务的。</p>
+<p>这里引用MDN里面的一张图，其大体的解释了JavaScript运行的理论模型</p>
+<img src="/2019/12/03/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89event-loop/model.svg" class="" title="概念模型">
+
+<p>这个模型中有三个块，分别是调用栈、堆和执行队列。</p>
+<h3 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h3><p>类似于其他语言中的调用栈，每次调用一个函数时，会创建栈的一个帧，其中包含了函数内部的所有参数和局部变量，若是函数内部调用了另一个函数，则会新建一个帧，和前一个帧一样，被压入调用栈中。当函数返回时，则他的帧在最上层会被弹出。</p>
+<h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><p>JavaScript里创建的对象一般会被分配在一个堆中，其是一大块非结构化的内存区域。</p>
+<h3 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h3><p>在JavaScript运行时，其会保存所有待处理的消息。每个消息都关联着一个用以处理这个消息的函数，一般是已经完成的异步操作。</p>
+<p>在事件循环期间的某个时刻，运行时从最先进入队列的消息开始处理队列中的消息。为此，这个消息会被移出队列，并作为输入参数调用与之关联的函数。</p>
+<p><strong>函数的处理会一直进行到执行栈再次为空为止</strong>；然后事件循环将会处理队列中的下一个消息（如果还有的话）。</p>
+<p>任务队列分为微任务队列和宏任务队列。</p>
+<h2 id="微任务和宏任务"><a href="#微任务和宏任务" class="headerlink" title="微任务和宏任务"></a>微任务和宏任务</h2><p>宏任务：当前调用栈中执行的代码。</p>
+<p>包含：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">script                <span class="comment">//整体代码</span></span><br><span class="line"><span class="built_in">setTimeout</span></span><br><span class="line"><span class="built_in">setInterval</span></span><br><span class="line">I/O</span><br><span class="line">UI交互事件</span><br><span class="line">postMessage</span><br><span class="line">MessageChannel</span><br><span class="line">setImmediate          <span class="comment">//Node.js 环境</span></span><br></pre></td></tr></table></figure>
+
+<p>浏览器为了能够使得JS内部(macro)task与DOM任务能够有序的执行，会在一个(macro)task执行结束后，在下一个(macro)task 执行开始前，对页面进行重新渲染。</p>
+<p>微任务：在当前 task 执行结束后立即执行的任务。</p>
+<p>包含：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.then</span><br><span class="line"><span class="built_in">Object</span>.observe</span><br><span class="line">MutaionObserver</span><br><span class="line">process.nextTick      <span class="comment">//Node.js 环境</span></span><br></pre></td></tr></table></figure>
+
+<p>在当前的微任务没有执行完成时，是不会执行下一个宏任务的。</p>
+<h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><p>回到一开始，我们知道JavaScript是单线程语言，不能同时处理多个任务，解释器是如何协调微任务和宏任务的执行的？</p>
+<blockquote>
+<p>主线程从”任务队列”中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。</p>
+</blockquote>
+<p>下图很好的描述了Event Loop的运行流程</p>
+<img src="/2019/12/03/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86%EF%BC%88%E4%BA%8C%EF%BC%89event-loop/event_loop.png" class="" title="Event Loop">
+
+<p>主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在”任务队列”中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取”任务队列”，依次执行那些事件所对应的回调函数。</p>
+<h2 id="具体表现"><a href="#具体表现" class="headerlink" title="具体表现"></a>具体表现</h2><center>To be continue</center>
+
+<h2 id="Credits"><a href="#Credits" class="headerlink" title="Credits"></a>Credits</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop">并发模型与事件循环</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html">JavaScript 运行机制详解：再谈Event Loop</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/rubylouvre/archive/2010/04/27/1721988.html">javascript事件系统的发展史</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiasm/p/9482443.html">微任务、宏任务与Event-Loop</a></p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/12/06/前端知识梳理（三）websocket/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（三）websocket">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/11/26/前端知识梳理（一）模块管理/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（一）模块管理">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=JavaScript" title="JavaScript">JavaScript</a>
+                        
+                          <a class="tag" href="/archive/?tag=并发" title="并发">并发</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

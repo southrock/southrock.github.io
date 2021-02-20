@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          Hook的简单学习与实践 - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2019/07/20/Hook的简单学习与实践/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=React" title="React">React</a>
+                        
+                          <a class="tag" href="/archive/?tag=Hook" title="Hook">Hook</a>
+                        
+                    </div>
+                    <h1>Hook的简单学习与实践</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2019-07-20
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这几天在忙着家园招新项目的工作，打算深入一下对React的理解，一直听说React Conf 2018提出的proposal——hook非常好用。就打算乘着这次项目来深入理解一下hook。首先回顾下React Conf 2018在介绍hook所讲的内容。</p>
+<h3 id="React之前实践中存在的问题"><a href="#React之前实践中存在的问题" class="headerlink" title="React之前实践中存在的问题"></a>React之前实践中存在的问题</h3><h4 id="包装地狱（Wrapper-Hell）"><a href="#包装地狱（Wrapper-Hell）" class="headerlink" title="包装地狱（Wrapper Hell）"></a>包装地狱（Wrapper Hell）</h4><p>当我们在项目中复用一些逻辑时，会把一些功能提取出来，成为组件。主要是依靠以下两种模式来复用代码：<strong>高阶组件</strong>和<strong>渲染属性</strong></p>
+<p>这两种模式对于部分场景来说是很好的，但也经常带来一个很大的缺点。在较为复杂的场景中，这类方案需要重新组织你的组件结构，这可能会很麻烦，使代码难以理解。而大量的嵌套也导致跟踪app的数据流会非常困难。</p>
+<p>其实最根本的原因是React在组件之间复用状态逻辑很难，React 需要为共享状态逻辑提供更好的原生途径。</p>
+<h4 id="组件过与庞大（Giant-components）"><a href="#组件过与庞大（Giant-components）" class="headerlink" title="组件过与庞大（Giant components）"></a>组件过与庞大（Giant components）</h4><p>在工程中，我们常常会写一些比较大的组件，而这些大型组件往往很难拆分和重构的，而里面的业务逻辑也分散在组件中的各个方法中，而生命周期中也往往掺杂了不同业务的代码，耦合在一起，让人感到困惑</p>
+<h4 id="让人迷惑的Class（Confusing-classes）"><a href="#让人迷惑的Class（Confusing-classes）" class="headerlink" title="让人迷惑的Class（Confusing classes）"></a>让人迷惑的Class（Confusing classes）</h4><h5 id="Hard-for-humans"><a href="#Hard-for-humans" class="headerlink" title="Hard for humans"></a>Hard for humans</h5><p>在我以前的开发中，经常默认就写class组件的，哪怕是一些非常简单的组件。因为函数组件在需要引入state和生命周期钩子函数的时候，早晚需要将其改写成class组件。其中有很多繁复和无意义的工作。</p>
+<p>class组件中的绑定和转化工作也让人非常困惑。在写一些方法时需要不断的将其绑定this的操作也让人非常沮丧。</p>
+<h5 id="Hard-for-machines"><a href="#Hard-for-machines" class="headerlink" title="Hard for machines"></a>Hard for machines</h5><p>class组件对于tree shaking和热加载也带来了很多麻烦。</p>
+<p>如果看过压缩后的组件文件，可以看到所有的方法名没有被压缩。一个未使用的方法也很难被跟踪并剔除，机器在编译过程中很难准确判断方法是否被使用。</p>
+<p>编译器在优化提升React组件性能时，class组件的一些设计模式也使编译器优化变得更加困难。</p>
+<h3 id="Hook"><a href="#Hook" class="headerlink" title="Hook"></a>Hook</h3><p>根据React官网文档介绍，Hook是：</p>
+<blockquote>
+<ul>
+<li><strong>完全可选的。</strong> 你无需重写任何已有代码就可以在一些组件中尝试 Hook。但是如果你不想，你不必现在就去学习或使用 Hook。</li>
+<li><strong>100% 向后兼容的。</strong> Hook 不包含任何破坏性改动。</li>
+<li><strong>现在可用</strong>。Hook 已发布于 v16.8.0。</li>
+</ul>
+</blockquote>
+<p>不像render props和高阶组件，Hook没有带来不必要的嵌套给组件，也没有mixins那样带来的缺点。</p>
+<h4 id="什么是Hook"><a href="#什么是Hook" class="headerlink" title="什么是Hook"></a>什么是Hook</h4><p>在了解Hook之前，先回到思考我们是怎么复用代码的。</p>
+<p>正是为了代码复用，我们编写组件，组件的功能十分强大，但他们会渲染一些UI，这让他们不方便分享不可见的逻辑，这也导致了render props和高阶组件的出现。有没有什么简单的一样办法让我们复用代码而不是这么多复杂的？</p>
+<p>函数似乎非常适合代码复用，在复用中也不会带来很多副作用，但函数并没有本地的React状态。在class组件中你需要重构代码或者引入类似Observables的抽象类，不管哪种方法都伤害了我们追求的简洁</p>
+<p>Hook正是解决了这个问题，Hook让我们只需要从一个函数的调用，就能很方便的使用React的一些特性。React提供的内置的一些Hook暴露了React的一些结构，像是state、生命周期和context。</p>
+<p>我们也可以很方便的编写一些代码来包装这些内置的Hook，变成我们自己的自定义的Hook。</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><center>To be continue</center>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/11/23/前端知识梳理（零）前言/" data-toggle="tooltip" data-placement="top" title="前端知识梳理（零）前言">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/11/29/北京地铁计价/" data-toggle="tooltip" data-placement="top" title="北京地铁计价">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=前端" title="前端">前端</a>
+                        
+                          <a class="tag" href="/archive/?tag=React" title="React">React</a>
+                        
+                          <a class="tag" href="/archive/?tag=Hook" title="Hook">Hook</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

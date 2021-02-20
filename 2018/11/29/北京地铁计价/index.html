@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          北京地铁计价 - 南岩居 | Southrock&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.southrock.top/2018/11/29/北京地铁计价/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Modify CSS -->
+    
+<link rel="stylesheet" href="/css/southrock-blog.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Southrock&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        
+                    
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+                        
+                        <li>
+                            <a href="/archive/">Archive</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/home-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/archive/?tag=算法" title="算法">算法</a>
+                        
+                          <a class="tag" href="/archive/?tag=爬虫" title="爬虫">爬虫</a>
+                        
+                          <a class="tag" href="/archive/?tag=python" title="python">python</a>
+                        
+                          <a class="tag" href="/archive/?tag=Dijkstra" title="Dijkstra">Dijkstra</a>
+                        
+                    </div>
+                    <h1>北京地铁计价</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by southrock on
+                        2018-11-29
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>因为某人的离散期末作业，开始的这个项目，自己也想学习一些算法知识，也拿来实践实践，运用出来。废话不多说，开始。</p>
+<hr>
+<h3 id="核心算法"><a href="#核心算法" class="headerlink" title="核心算法"></a>核心算法</h3><p><strong>迪杰斯特拉算法</strong>（英语：Dijkstra’s algorithm）由荷兰计算机科学家<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%89%BE%E5%85%B9%E8%B5%AB%E5%B0%94%C2%B7%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89">艾兹赫尔·戴克斯特拉</a>在1956年提出。戴克斯特拉算法使用了<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2">广度优先搜索</a>解决赋权有向图的单源<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98">最短路径问题</a>。</p>
+<h4 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h4><p>迪杰斯特拉算法采用的是一种贪心策略。这个算法是通过为每个顶点 <em>v</em> 保留目前为止所找到的从s到v的最短路径来工作的。初始时，原点 s 的路径权重被赋为 0 （<em>d[s]</em> = 0）。若对于顶点 m 存在能直接到达的边（s,m），则把d[m]设为w（s, m）,同时把所有其他（s不能直接到达的）顶点的路径长度设为无穷大，即表示我们不知道任何通向这些顶点的路径（对于所有顶点的集合 <em>V</em> 中的任意顶点 <em>v</em>， 若 <em>v</em> 不为 <em>s</em> 和上述 <em>m</em> 之一， <em>d[v]</em> = ∞）。当算法结束时，<em>d[v]</em> 中存储的便是从 <em>s</em> 到 <em>v</em>的最短路径，或者如果路径不存在的话是无穷大。</p>
+<p>下面的伪代码计算并保留图G中原点s到每一顶点v的最短距离d[v]，同时找出并保留v在此最短路径上的“前趋”，即沿此路径由s前往v，到达v之前所到达的顶点。其中，函数Extract_Min(Q) 将顶点集合Q中有最小d[u]值的顶点u从Q中删除并返回u。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Dijkstra(G, w, s)</span><br><span class="line">    for each vertex v in V[G]               &#x2F;&#x2F; 初始化</span><br><span class="line">        d[v] :&#x3D; infinity                    &#x2F;&#x2F; 将各点的已知最短距离先设成无穷大</span><br><span class="line">        previous[v] :&#x3D; undefined            &#x2F;&#x2F; 各点的已知最短路径上的前趋都未知</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 因为出发点到出发点间不需移动任何距离，所以可以直接将s到s的最小距离设为0</span><br><span class="line">    d[s] :&#x3D; 0                        </span><br><span class="line">    S :&#x3D; empty set</span><br><span class="line">    Q :&#x3D; set of all vertices</span><br><span class="line">    while Q is not an empty set             &#x2F;&#x2F; Dijkstra算法主体</span><br><span class="line">            u :&#x3D; Extract_Min(Q)</span><br><span class="line">            S.append(u)</span><br><span class="line">            for each edge outgoing from u as (u,v)</span><br><span class="line">                if d[v] &gt; d[u] + w(u,v)     &#x2F;&#x2F; 拓展边（u,v）。w(u,v)为从u到v的路径长度。</span><br><span class="line">                    d[v] :&#x3D; d[u] + w(u,v)   &#x2F;&#x2F; 更新路径长度到更小的那个和值。</span><br><span class="line">                    previous[v] :&#x3D; u        &#x2F;&#x2F; 纪录前趋顶点</span><br></pre></td></tr></table></figure>
+
+<h4 id="算法示例"><a href="#算法示例" class="headerlink" title="算法示例"></a>算法示例</h4><img src="/2018/11/29/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E8%AE%A1%E4%BB%B7/Dijkstra_Animation.gif" class="" title="Dijkstra_Animation">
+
+<h3 id="目标实现"><a href="#目标实现" class="headerlink" title="目标实现"></a>目标实现</h3><p>爬取北京地铁站间距离数据，生成一张无向图。通过迪杰斯特拉算法计算出两站的最短路径，用这个路径距离来计算出该程的票价。</p>
+<h3 id="数据爬取"><a href="#数据爬取" class="headerlink" title="数据爬取"></a>数据爬取</h3><p>谷歌搜索北京地铁站间公里数，发现北京地铁官网就有数据，F12审查网页，发现都是静态页面，非常好爬取。省了不少事，原本以为是最头疼的一步轻松地就解决了。</p>
+<img src="/2018/11/29/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E8%AE%A1%E4%BB%B7/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E5%AE%98%E7%BD%91%E7%AB%99%E9%97%B4%E5%85%AC%E9%87%8C%E6%95%B0.png" class="" title="北京地铁官网站间公里数">
+
+<p>不过感觉可能因为很少人用了？CSS文件都加载不出来，官网首页也找不到有站间距离的链接，好像被废弃了。不过有数据就成了。</p>
+<p>开始撸代码，这里爬虫用的是python的requests库，html解析用的是etree库，没其他原因，主要还是这两个库自更熟悉一点。相比其他爬虫库感觉更加简洁。</p>
+<p>由于是很简单的爬虫，没有什么难度，直接上代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">&quot;https://www.bjsubway.com/station/zjgls/&quot;</span>)</span><br><span class="line">r.encoding = r.apparent_encoding</span><br><span class="line">text = r.text</span><br><span class="line">html = etree.HTML(text)</span><br><span class="line">example = <span class="string">&#x27;//*[contains(concat(&quot;&quot;,@class,&quot;&quot;),&quot;line_place&quot;)]//tbody//tr&#x27;</span></span><br><span class="line">result = html.xpath(example)</span><br><span class="line">textName = <span class="string">&#x27;distance.txt&#x27;</span></span><br><span class="line">f = <span class="built_in">open</span>(textName,<span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> trs <span class="keyword">in</span> result:</span><br><span class="line">    a = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> trs:</span><br><span class="line">        a += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">str</span> = n.text.split(<span class="string">&#x27;――&#x27;</span>)</span><br><span class="line">            <span class="keyword">for</span> z <span class="keyword">in</span> <span class="built_in">str</span>:</span><br><span class="line">                f.write(z+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">2</span>:</span><br><span class="line">            f.write(n.text+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p>写的可能不是很规范，不过能用就行。得到一个九百多行的txt文件，三行一组，每一组包含了两站之间的距离。</p>
+<img src="/2018/11/29/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E8%AE%A1%E4%BB%B7/%E7%AB%99%E9%97%B4%E8%B7%9D%E7%A6%BB%E6%95%B0%E6%8D%AE.png" class="" title="站间距离数据">
+
+<p>这里我的“产品经理”提了个很奇怪的需求（小声BB）需要每一站的输入都要是英文，当时非常崩溃，不知道怎么去找这些站的标准英文名，还打算先把这些站名先转换成拼音再找特例一个个去改。不过幸好，在北京地铁的英文官网上，发现了他会获取一个有北京地铁站中英名对照的的xml。</p>
+<img src="/2018/11/29/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E8%AE%A1%E4%BB%B7/%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7.png" class="" title="中英对照xml">
+
+<p>感动，遂又写了个简单的小爬虫，代码就不放了。通过爬取建立了一个dict，然后对刚刚的数据站名一一查询改成相应的英文站名。中间发生过几次报错，恰好了解到了北京地铁一些小故事，挺有意思的，不过这都是后话了，后面再聊。</p>
+<h3 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h3><p>读取刚刚爬取获得的站间距离数据，用邻接表来表示北京地铁线路图。再运用上述所讲的迪杰斯特拉算法建算出输入两个站的最短距离，按北京地铁收费方法计算出该车程的费用。下面是核心代码截图，好像还有挺多问题的，以待优化。</p>
+<img src="/2018/11/29/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E8%AE%A1%E4%BB%B7/%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81.png" class="" title="核心代码">
+
+<hr>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这个小项目算是比较顺利的完成了，某人的离散数学期末作业至少代码部分算是满分通过吧=0=（毕竟老师只要求做四条线路的）迪杰斯特拉算法也是一个比较简单、基础的算法吧，不过这一次和实际结合还是非常有意思，感觉也挺有意义的。</p>
+<p>本项目难点也不在算法上，而是数据的获取，本文大量篇幅也是在写爬取数据的部分。嘿嘿，本来核心代码部分是要拿c写一遍的，不过之前写爬虫祭出了python，就想偷懒用python写到底了。总之实践了一遍图的实现和最短路径算法，收获也挺多的。还是感谢某人提供的这次机会23333</p>
+
+
+                <hr>
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/07/20/Hook的简单学习与实践/" data-toggle="tooltip" data-placement="top" title="Hook的简单学习与实践">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/10/12/talk-about-this/" data-toggle="tooltip" data-placement="top" title="talk about this">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+                <!-- gitalk评论框 start -->
+                <div id="gitalk-container"></div>
+                <!-- gitalk评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/archive/?tag=算法" title="算法">算法</a>
+                        
+                          <a class="tag" href="/archive/?tag=爬虫" title="爬虫">爬虫</a>
+                        
+                          <a class="tag" href="/archive/?tag=python" title="python">python</a>
+                        
+                          <a class="tag" href="/archive/?tag=Dijkstra" title="Dijkstra">Dijkstra</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://git.io/fAhS8" target="_blank">Wnma</a></li>
+                    
+                        <li><a href="http://wingsico.org" target="_blank">wingsico</a></li>
+                    
+                        <li><a href="https://blog.lenconda.top/" target="_blank">lenconda</a></li>
+                    
+                        <li><a href="https://flura.cn/" target="_blank">flura</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+
+    <!-- gitalk 代码 -->
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script type="text/javascript">
+        async("https://unpkg.com/gitalk/dist/gitalk.min.js",function() {
+            var gitalk = new Gitalk({
+                clientID: "bbd888c9aff134248f21",
+                clientSecret: "a046f3a572b75d0e7018290d57de285defb514bc",
+                repo: "southrock.github.io",
+                owner: "southrock",
+                admin: "southrock",
+                id: decodeURI(location.pathname),
+                distractionFreeMode: "true",
+            })
+            gitalk.render('gitalk-container')
+        })
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="mailto://southrock@foxmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/southrock">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Southrock&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Modified by <a href="http://blog.southrock.top">southrock</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- ToProgress -->
+
+<script src="/js/ToProgress.min.js"></script>
+
+
+<script>
+    (function() {
+        var options = {
+            id: 'top-progress-bar',
+            color: '#77b6ff', 
+            height: '2px', 
+            duration: 0.2
+        }
+        var progressBar = new ToProgress(options);
+        // 节流函数
+        function throttle(fn,intervalTime) {
+            var timestamp = 0;
+            return function(e) {
+                var that = this;
+                var nowTime = new Date().getTime();
+                if (nowTime - timestamp > intervalTime) {
+                    fn.call(that,e);
+                    timestamp = nowTime;
+                }
+            }
+        }
+        function handleScroll(e) {
+            var scrollTo      = $(window).scrollTop(),
+                docHeight     = $(document).height(),
+                windowHeight  = $(window).height(),
+                scrollPercent = (scrollTo / (docHeight-windowHeight)) * 100;
+            progressBar.setProgress(scrollPercent.toFixed(0));
+        }
+        $(document).scroll(throttle(handleScroll,50));
+    })();
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://blog.southrock.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        });
+        (function() {
+            function getUrlTagName() {
+                var vars_array = window.location.search.substr(1).split("&");
+                var vars_object = {};
+                vars_array.forEach(function(value,index) {
+                    var pair = value.split('=');
+                    vars_object[pair[0]] = pair[1]; 
+                });
+                if (vars_object['tag'] !== undefined) {
+                    return vars_object['tag'];
+                }
+                else {
+                    return null;
+                }
+            }
+            function updatePage(tag_name,is_all) {
+                $('#tag_cloud a').removeClass('focus');
+                select_string = '#tag_cloud a[data-encode=\"' + tag_name + '\"]'
+                $(select_string).addClass('focus');
+                $('.one-tag-list>ul').each(function(i,e) {
+                    var flag = true;
+                    $(e).children('li').each(function(index,element) {
+                        var tag_array = decodeURI(element.getAttribute('data-tags')).split(",");
+                        if (tag_array.indexOf(decodeURIComponent(tag_name)) === -1 && !is_all) {
+                            $(element).addClass('d-none');
+                        }
+                        else {
+                            $(element).removeClass('d-none');
+                            flag = false;
+                        }
+                    });
+                    var p = $(e).parent();
+                    flag ? p.addClass('d-none') : p.removeClass('d-none');
+                });
+            }
+            $(window).on('popstate',function() {
+                var tag_name = getUrlTagName();
+                updatePage(tag_name,tag_name===null);
+            });
+            $('#tag_cloud a').on('click',function(event) {
+                var tag_name = event.target.getAttribute('data-encode');
+                var is_all_flag = false;
+                if (tag_name === '') {
+                    is_all_flag=true;
+                }
+                history.pushState(null,null,is_all_flag ? '/archive/':'?tag='+tag_name);
+                updatePage(tag_name,is_all_flag);
+            });
+        })();
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    async("https://www.googletagmanager.com/gtag/js?id=UA-153230711-1", function() {
+        // dynamic User by Hux
+        var _gtagId = 'UA-153230711-1';
+
+        // Originial
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gtagId);
+    });
+</script>
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://blog.southrock.top//img/avatar.jpg" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
